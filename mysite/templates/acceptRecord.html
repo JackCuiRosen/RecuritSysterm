@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+
+
+{% block acceptRecord %}
+<div class="col-12" style="background-image: url('/static/Recruitment/img/my_resume_banner_1577084307030.jpg');height: 317px">
+        <div class="col-lg-6 col-sm-10 mx-auto">
+            <div class="row justify-content-between">
+                <div class="col-4"  style="margin-top: 14vh;">
+                    <h2><strong style="color: white">应聘记录</strong></h2>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6 mx-auto text-center shadow-lg" style="height: 50vh;background-color:white; margin-top: -10vh;" >
+
+    {% if record %}
+    <div class="col-6 mx-auto">
+
+            <div style="height: 10vh;">
+
+            </div>
+
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h5 class="card-title">工作地点 ：{{ record.job.WorkPlace}}</h5>
+                    <p class="card-text">职位：{{ record.job.JobName }}</p>
+                    <p class="card-text">投递日期：{{ record.create_time }}</p>
+                    <p class="card-text"><small class="text-muted">状态：已投递</small></p>
+                </div>
+                <div class="card-footer bg-transparent border-0">
+                    <a href="#" class="btn btn-primary btn-sm" style="border-radius: 30px;">查看详情</a>
+                </div>
+            </div>
+
+    </div>
+        {% else %}
+                    <div class="col-12">
+                <img src="/static/Recruitment/img/no_application_img_1576838738128.png" style="height: 50%;width: 50%; outline: none;caret-color: transparent;" alt="#">
+                <h5 class="mt-5">暂无应聘记录</h5>
+                <a href="/position?page=&category=&keyword="><button class="btn btn-primary mt-3" style="border-radius: 20px">寻找工作机会</button></a>
+            </div>
+    {% endif %}
+    </div>
+
+{% endblock %}

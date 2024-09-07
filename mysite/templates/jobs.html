@@ -1,0 +1,413 @@
+{% extends 'base.html' %}
+
+
+{% block jqscript %}
+	<script>
+		$(document).ready(function () {
+
+			$(".navbar-brand.jobs").each(function () {
+
+				$(this).css({"text-decoration":"underline", "text-underline-offset":"20px","text-decoration-color":"#007bff"})
+			});
+
+			const params = new URL(window.location.href);
+
+			var searchParams = new URLSearchParams(params.search);
+
+			var keyword = searchParams.get('keyword');
+
+
+			$("#keyword_get").val(keyword);
+
+
+		});
+
+			$(document).ready(function (){
+
+
+					var baseurl = window.location.href.split("?")[0]+"?";
+
+					const params = new URL(window.location.href);
+
+					var searchParams = new URLSearchParams(params.search);
+
+				$("#button-seacher").click(function(){
+
+					var queryword = "";
+
+					queryword = $("#keyword_get").val();
+
+					searchParams.set('keyword',queryword);
+
+
+					window.history.pushState({},"Tecshare",baseurl+searchParams.toString());
+
+					$.ajax({
+						url: window.location.href,
+						method:'GET',
+						success:function (data) {
+
+							$("#job-info").html($(data).find("#job-info"));
+
+						}
+					});
+
+				});
+				$(".form-check-input").click(function (){
+
+
+						var category_arg = "";
+
+						var city_arg = "";
+
+					$("#job-category .form-check-input").each(function (){
+						if($(this).is(':checked')){
+							// alert($(this).siblings().text());
+
+							category_arg +=$(this).siblings().text().trim()+",";
+						}
+					});
+					$("#job-city .form-check-input").each(function (){
+						if($(this).is(':checked')){
+
+							city_arg +=$(this).siblings().text().trim()+",";
+						}
+					});
+
+					searchParams.set('category',category_arg);
+					searchParams.set('city',city_arg);
+
+					window.history.pushState({},"Tecshare",baseurl+searchParams.toString());
+
+					$.ajax({
+						url: window.location.href,
+						method:'GET',
+						success:function (data) {
+
+							$("#job-info").html($(data).find("#job-info"));
+						}
+					});
+
+
+
+				});
+
+				$(".page-link").click(function (){
+
+					searchParams.set('page',$(this).text().trim());
+					// alert(searchParams.toString())
+					window.history.pushState({},"Tecshare",baseurl+searchParams.toString());
+
+					$.ajax({
+						url: window.location.href,
+						method:'GET',
+						success:function (data) {
+
+							$("#job-info").html($(data).find("#job-info"));
+						},
+
+					});
+					var now = Number($(this).text());
+					var job_cnt = Number($("#job-cnt").text());
+					// alert(now);
+
+
+					// alert($("#job-cnt").text());
+
+					if(now > 2 && now < (job_cnt+6)/7 - 1) {
+						var page_links = document.getElementsByClassName('page-link');
+
+						for (var i = -2; i <= 2; i++) {
+							page_links[i + 2].innerHTML = now + i;
+						}
+					}
+				});
+
+				$("#prev").click(function (){
+					var now = Number(searchParams.get('page'));
+					var job_cnt = Number($("#job-cnt").text());
+					if(now > 1)
+					{
+						searchParams.set('page',now - 1)
+					window.history.pushState({},"Tecshare",baseurl+searchParams.toString());
+					$.ajax({
+						url: window.location.href,
+						method:'GET',
+						success:function (data) {
+
+							$("#job-info").html($(data).find("#job-info"));
+						}
+					});
+					if(now > 2 && now < (job_cnt+6)/7 - 1) {
+						var page_links = document.getElementsByClassName('page-link');
+
+						for (var i = -2; i <= 2; i++) {
+							page_links[i + 2].innerHTML = now + i;
+						}
+					}
+					}
+
+				});
+				$("#next").click(function (){
+					var now = Number(searchParams.get('page'));
+					var job_cnt = Number($("#job-cnt").text())
+					if(now < (job_cnt + 6)/7 - 1)
+					{
+						searchParams.set('page',now + 1)
+					window.history.pushState({},"Tecshare",baseurl+searchParams.toString());
+					$.ajax({
+						url: window.location.href,
+						method:'GET',
+						success:function (data) {
+
+							$("#job-info").html($(data).find("#job-info"));
+						}
+					});
+
+					// alert(111)
+					if(now > 2 && now < (job_cnt+6)/7 - 1) {
+						var page_links = document.getElementsByClassName('page-link');
+
+						for (var i = -2; i <= 2; i++) {
+							page_links[i + 2].innerHTML = now + i;
+						}
+					}
+					}
+
+				});
+
+				$("#condition-clear").click(function (){
+
+					searchParams.set('page','1');
+					searchParams.set('category','');
+					searchParams.set('city','');
+
+					window.history.pushState({},"Tecshare",baseurl+searchParams.toString());
+
+					$.ajax({
+						url: window.location.href,
+						method:'GET',
+						success:function (data) {
+
+							$("#job-info").html($(data).find("#job-info"));
+						},
+
+					});
+
+					$(".form-check-input").each(function (){
+
+						$(this).prop("checked",false);
+					});
+				});
+
+
+			});
+		</script>
+{% endblock %}
+
+
+{% block jobcontent %}
+<div class="search-content sticky-top" style="width: 100%; height: 8rem; display: flex; flex-direction: column;justify-content: center; text-align: center; box-shadow: 2px 3px 2px 1px rgba(0, 0, 0, 0.03);background-color: white; z-index: 1">
+			<div class="btn-group  m-auto" role="group" style="width: 60rem;">
+			  <div class="input-group flex-nowrap " id="inp2" style="border-bottom-left-radius:30px;border-top-left-radius:30px;">
+				  <span class="input-group-text border  border-end-0"   style="border-bottom-left-radius:30px;border-top-left-radius:30px;background-color: white; width: 4rem;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search m-auto" viewBox="0 0 16 16">
+  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+</svg></span>
+			  <input type="text" class="form-control border  border-start-0" placeholder="搜索职位" aria-label="" aria-describedby="button-addon2" id = "keyword_get">
+			  </div>
+			  <button class="btn btn-primary" type="button" id="button-seacher" style="width: 10rem;border-bottom-right-radius:30px;border-top-right-radius:30px;">搜索</button>
+			</div>
+		</div>
+
+
+
+		<div style="width: 100%; height: 20px;"></div>
+		<div class="row">
+			<div class="col-2">
+
+
+			</div>
+			<div class="col-2 ">
+
+					<div class="row justify-content-between border-bottom" style="margin-bottom: 4rem">
+					<div class="col-3" >
+						<button class="btn btn btn-primary-outline"  id = "condition-select" style="width: 4rem"><strong>筛选</strong></button>
+					</div>
+					<div class="col-3"style="text-align: right;">
+						<button class="btn btn btn-primary-outline"  id = "condition-clear" style="width: 4rem">清除</button>
+					</div>
+
+					</div>
+
+<!--					#####################################-->
+
+
+
+					<div style="margin-top: 2rem;"><h5><strong>职位类别</strong></h5></div>
+
+					<div class="row justify-content-between" style="margin-top: 1rem;" id = "job-category">
+						<div class="col-12" style="text-align: left;">
+							<div class="form-check">
+							  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefaultYF">
+							  <label class="form-check-label" for="flexCheckDefaultYF">
+							    研发
+							  </label>
+							</div>
+						</div>
+						<div class="col-12" style="text-align: left;">
+							<div class="form-check">
+							  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefaultYY">
+							  <label class="form-check-label" for="flexCheckDefaultYY">
+							    运营
+							  </label>
+							</div>
+						</div>
+						<div class="col-12" style="text-align: left;">
+							<div class="form-check">
+							  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefaultCP">
+							  <label class="form-check-label" for="flexCheckDefaultCP">
+							    产品
+							  </label>
+							</div>
+						</div>
+
+						<div class="col-12" style="text-align: left;">
+							<div class="form-check">
+							  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefaultXS">
+							  <label class="form-check-label" for="flexCheckDefaultXS">
+							    销售
+							  </label>
+							</div>
+						</div>
+
+						<div class="col-12" style="text-align: left;">
+							<div class="form-check">
+							  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefaultSC">
+							  <label class="form-check-label" for="flexCheckDefaultSC">
+							    市场
+							  </label>
+							</div>
+						</div>
+
+						<div class="col-12" style="text-align: left;">
+							<div class="form-check">
+							  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefaultSJ">
+							  <label class="form-check-label" for="flexCheckDefaultSJ">
+							    设计
+							  </label>
+							</div>
+						</div>
+
+					</div>
+
+					<div style="margin-top: 2rem;"><h5><strong>城市</strong></h5></div>
+
+					<div class="row justify-content-between" style="margin-top: 1rem;" id="job-city">
+						<div class="col-12" style="text-align: left;">
+							<div class="form-check">
+							  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefaultPosBJ">
+							  <label class="form-check-label" for="flexCheckDefaultPosBJ">
+							    北京
+							  </label>
+							</div>
+						</div>
+						<div class="col-12" style="text-align: left;">
+							<div class="form-check">
+							  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefaultPosSH">
+							  <label class="form-check-label" for="flexCheckDefaultPosSH">
+							    上海
+							  </label>
+							</div>
+						</div>
+
+						<div class="col-12" style="text-align: left;">
+							<div class="form-check">
+							  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefaultPosHZ">
+							  <label class="form-check-label" for="flexCheckDefaultPosHZ">
+							    杭州
+							  </label>
+							</div>
+						</div>
+
+						<div class="col-12" style="text-align: left;">
+							<div class="form-check">
+							  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefaultPosSZ">
+							  <label class="form-check-label" for="flexCheckDefaultPosSZ">
+							    深圳
+							  </label>
+							</div>
+						</div>
+
+						<div class="col-12" style="text-align: left;">
+							<div class="form-check">
+							  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefaultPosGZ">
+							  <label class="form-check-label" for="flexCheckDefaultPosGZ">
+							    广州
+							  </label>
+							</div>
+						</div>
+
+					</div>
+
+
+			</div>
+			<div class="col-1"></div>
+			<div class="col-6">
+
+				<div id="job-info">
+				<div style="width: 100%;height: 3rem;">
+					<h1><strong>开启新的工作（<span id="job-cnt">{{ job_cnt }}</span>）</strong></h1>
+				</div>
+
+				<div id = "jobsperpage" style="display: block">
+
+				{% if job_list %}
+					{% for job in job_list %}
+						{% if job %}
+					<div class="card shadow-sm" style="width: 35rem; border:none; margin-top: 2rem; z-index: 0">
+					<a href="/{{job.JobID}}/details/" style="text-decoration: none;color: #000b16" class = "card-list">
+				  <div class="card-body">
+				    <h3 class="card-title"><strong>{{ job.JobName }}</strong></h3>
+				    <nav style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb">
+				      <ol class="breadcrumb">
+				        <li class="breadcrumb-item active">{{ job.WorkPlace }}</li>
+				        <li class="breadcrumb-item active" aria-current="page">{{ job.WorkKind }}</li>
+						  <li class="breadcrumb-item active job-id" aria-current="page">{{ job.JobID }}</li>
+				      </ol>
+				    </nav>
+				    <p class="card-text" style=" display: -webkit-box;   text-overflow: ellipsis; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2;"> {{ job.JobDescrib }} </p>
+				  </div>
+
+				  </a>
+				</div>
+						{% endif %}
+					{% endfor %}
+				{% endif %}
+				</div>
+				</div>
+
+
+
+				<nav aria-label="Page navigation example" style="margin-top: 4rem;">
+  <ul class="pagination pagination-lg ">
+    <li class="page-item">
+      <button class="btn btn-primary" href="#" aria-label="Previous" style="width:3.6rem;height:3.6rem;" id = "prev">
+        <span aria-hidden="true">&laquo;</span>
+      </button>
+    </li>
+
+	  {% for page in page_range %}
+    <li class="page-item"><button class="page-link" style="color: #000b16; width: 4rem">{{page}}</button></li>
+	  {% endfor %}
+	  <li class="page-item">
+      <button class="btn btn-primary" href="#" aria-label="Previous" style="width:3.5rem;height:3.5rem;" id = "next">
+        <span aria-hidden="true">&raquo;</span>
+      </button>
+    </li>
+  </ul>
+</nav>
+
+
+		</div>
+		</div>
+{%  endblock %}

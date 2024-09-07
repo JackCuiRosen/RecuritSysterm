@@ -1,0 +1,127 @@
+
+{% extends 'base.html' %}
+
+{% block jqscript %}
+    <script>
+
+
+            $(document).ready(function () {
+
+                console.log(111)
+
+                var myModal = new bootstrap.Modal($('#exampleModal'));
+
+                {#myModal.hide();  // 隐藏模态框#}
+
+
+                $("#button-sendResume").click(function (){
+
+                    var Record_obj = {};
+
+                    Record_obj["JobId"] = '{{ job.JobID }}';
+
+                    Record_obj["department"] = '{{ job.WorkKind }}';
+
+
+
+                    $.ajax({
+
+                        url: '/sendresume/',
+                        type: 'post',
+                        headers: {"X-CSRFToken": $.cookie('csrftoken')},
+                        data: Record_obj,
+                        success: function (data) {
+
+                            if(data['status']){
+                                $('#msg').parent().attr('class','alert alert-success')
+                                $('#msg').html(data['msg']);
+                                $('#qqgroup_id').html("请加入qq群号： "+data['qqgroup_id']+ " 以接收通知噢");
+                                myModal.show();
+                            }
+                            else{
+                                $('#msg').parent().attr('class','alert alert-danger')
+                                $('#msg').html(data['msg']);
+                                if(data['msg'].indexOf('未登入') === -1)
+                                {
+                                    $('#qqgroup_id').html("请加入qq群号： "+data['qqgroup_id']+ " 以接收通知噢");
+                                }
+                                myModal.show();
+                            }
+
+                        },
+                        error:function () {
+
+                        }
+
+                    })
+
+
+                });
+
+            });
+		</script>
+{% endblock %}
+
+{%  block definemeta %}
+
+		<meta name="viewport" content="width=device-width, initial-scale=1" id="job-adapt">
+{% endblock %}
+
+  {% block jobdetails %}
+        {% if job %}
+		<div class="card shadow-lg col-lg-6 clo-sm-12 mx-auto"  style="margin-top: 5rem" id = "job-info">
+
+		  <div class="card-body" style="margin-left: 4rem; margin-top: 2rem; margin-right: 2rem;">
+		    <h2 class="card-title"><strong>{{ job.JobName }}</strong></h2>
+		    <nav style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb">
+		      <ol class="breadcrumb">
+		        <li class="breadcrumb-item">{{ job.WorkPlace }}</li>
+		        <li class="breadcrumb-item active" aria-current="page">{{ job.WorkKind }}</li>
+				<li class="breadcrumb-item">{{ job.JobID }}</li>
+		      </ol>
+		    </nav>
+			<br />
+			<br />
+			<h4><strong>职位描述</strong></h4>
+			<br />
+		    <p class="card-text" style="white-space: pre-line;">{{ job.JobDescrib }}</p>
+<br />
+		  <br />
+				<div>
+		  <h4><strong>职位要求</strong></h4>
+		  <br />
+
+		  <p class="card-text" style="white-space: pre-line;">{{ job.JobRequire }}</p>
+		</div>
+		  </div>
+			<br/>
+		<br />
+		<div>
+		<button class="btn btn-primary" type="POST" id="button-sendResume" style="width: 8rem;border-bottom-right-radius:30px;border-top-right-radius:30px; border-top-left-radius:30px;border-bottom-left-radius: 30px;  margin-left: 5rem;margin-bottom: 3rem;">投递</button>
+		</div>
+		</div>
+
+            <div class="container mt-5">
+    <!-- 触发模态框的按钮 -->
+    <!-- 模态框 -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">投递反馈</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                   <div class="" role="alert">
+                       <p id="msg"></p>
+                       <p id="qqgroup_id"></p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+		{% endif %}
+{% endblock %}

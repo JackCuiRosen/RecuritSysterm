@@ -1,0 +1,41 @@
+.card:hover {
+	transform: scale(1.01);
+}
+.form-control:focus{
+	border-color: #007bff;
+	
+	webkit-box-shadow:none;
+	
+	box-shadow: none;
+	
+}
+
+#inp:hover {
+  border-color: #007bff;
+ /* box-shadow: inset 1px 1px 1px rgba(0,114,255), 2px 2px 2px rgba(0,114,255); */
+  border: 1px solid #007bff;
+  
+}
+#mak {
+	color: #d1d1dd;
+}
+
+#mak:hover {
+	color: #007bff;
+}
+.linkt {
+	color: #000000;
+}
+
+.linkt:focus {
+	color: #007bff;
+}
+.link-font:hover{
+	color: #007bff;
+	
+}
+.background-div{
+	height: 1000px;
+	width: 100%;
+	background-image: url("../img/new-home-banner.gif");
+}

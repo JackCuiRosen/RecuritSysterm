@@ -1,0 +1,306 @@
+{% extends 'base.html' %}
+
+{% block jqscript %}
+<script>
+        var education = '{{ user_candidate.education }}';
+        var advantage = '{{ user_candidate.advantage }}';
+        var evaluation = '{{ user_candidate.evaluation }}';
+        var social = '{{ user_candidate.social }}';
+        var award = '{{ user_candidate.award }}';
+        var project = '{{ user_candidate.project }}';
+
+    </script>
+<script src="/static/Recruitment/js/FormValidate.js">
+
+
+</script>
+
+
+    <style>
+    label.error {
+        color:red;
+    }
+
+    </style>
+
+{% endblock %}
+
+{%  block definemeta %}
+		<meta name="viewport" content="width=device-width, initial-scale=1" id="job-adapt">
+{% endblock %}
+
+
+{% block candidateForm %}
+
+<div class = 'row'>
+    <div class="col-2">
+
+    </div>
+    <div class="col-8" style="margin-top: 3rem">
+        <h2><strong>编辑简历</strong></h2>
+        <br>
+        <br>
+        <form method="POST" id="candidate-form">
+            {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6"><h4 ><strong style="border-bottom: solid 4px #1E9FFF;">简历附件</strong></h4></div>
+            <div class="col-md-6 text-center mb-2" type = "file" style="background-color: rgba(0,0,0,0.05);height: 15rem;" id = 'upload-area'>
+               <div></div>
+                <input type="file" style="display: none" id="file-upload"/>
+                <h4 style="margin-top: 2rem"><strong>将你的简历拖拽到此处</strong></h4>
+                <button class="btn btn-outline-primary" style="margin-top: 1.5rem;border-radius: 20px" id="upload-candidate">请选择文件</button>
+                <p style="margin-top: 2rem;color: rgba(0,0,0,0.5)">支持格式：PDF、DOC、DOCX、PPT、PPTX、PNG、JPG、JPEG、HTML</p>
+
+            </div>
+            <div class = "col-12">
+                <br>
+               <hr style="color: rgba(0,0,0,0.2)">
+                <br>
+            </div>
+
+            <div class="col-md-6">
+                <h4 ><strong style="border-bottom: solid 4px #1E9FFF;">基础信息</strong></h4>
+                <p style="color: rgba(0,0,0,0.4)">请填写基本信息</p>
+            </div>
+
+            <div class="col-md-6">
+                <div class="baseinfo">
+                <div class="col-12" style="margin-bottom: 10px;">姓名<span style="color: red">*</span></div>
+                <input class="form-control" name="name" value="{{ user_candidate.name }}" type="text" placeholder="请输入" aria-label="default input example"  >
+
+                <div class="col-12"  style="margin-bottom: 10px;margin-top: 30px ">手机号码<span style="color: red">*</span></div>
+                <input class="form-control" value="{{ user_candidate.phone }}" name="phone" type="text" placeholder="请输入" aria-label="default input example" >
+                <div class="col-12" style="margin-bottom: 10px;margin-top: 30px ">邮箱<span style="color: red">*</span></div>
+                <input class="form-control" value="{{ user_candidate.email }}" name="email" type="email" placeholder="请输入" aria-label="default input example">
+                    <div class="col-12" style="margin-bottom: 10px;margin-top: 30px ">求职意向<span style="color: red">*</span></div>
+                <input class="form-control" value="{{ user_candidate.job_wanted }}" name="intention" type="text" placeholder="请输入" aria-label="default input example">
+                </div>
+            </div>
+            <div class = "col-12">
+                <br>
+                <hr style="color: rgba(0,0,0,0.2)">
+                <br>
+            </div>
+            <div class="col-md-6">
+                <h4 ><strong style="border-bottom: solid 4px #1E9FFF;">个人特长</strong></h4>
+                <p style="color: rgba(0,0,0,0.4)">请填写个人特长</p>
+            </div>
+            <div class = 'col-md-6'>
+                <div class="advantage">
+                     <div class="col-12" style="margin-bottom: 10px;margin-top: 30px ">特长<span style="color: red">*</span></div>
+                    <p style="color: rgba(0,0,0,0.4);font-size: small;">请以列表的形式给出</p>
+
+                        <textarea class="form-control" type="text" name="self_advantage" rows="6"></textarea>
+
+                </div>
+            </div>
+             <div class = "col-12">
+                <br>
+               <hr style="color: rgba(0,0,0,0.2)">
+                <br>
+            </div>
+
+            <div class="col-md-6">
+                <h4 ><strong style="border-bottom: solid 4px #1E9FFF;">教育经历</strong></h4>
+                <p style="color: rgba(0,0,0,0.4)">请填写教育经历</p>
+            </div>
+
+            <div class = 'col-md-6' id="educationarea">
+                <div class="education" style="display: none">
+                    <hr>
+                <div class="col-12" style="margin-bottom: 10px;">学校<span style="color: red">*</span></div>
+                <input class="form-control" name="school" type="text" placeholder="请输入" aria-label="default input example">
+                 <div class="col-12"  style="margin-bottom: 10px;margin-top: 30px ">学历<span style="color: red">*</span></div>
+                <input class="form-control" name="education_background" type="text" placeholder="请输入" aria-label="default input example">
+                 <div class="col-12" style="margin-bottom: 10px;margin-top: 30px ">专业<span style="color: red">*</span></div>
+                <input class="form-control" name="major" type="text" placeholder="请输入" aria-label="default input example">
+                <div class="col-12" style="margin-bottom: 10px;margin-top: 30px ">起止时间<span style="color: red">*</span></div>
+                <p style="color: rgba(0,0,0,0.4);font-size: 12px">无准确毕业时间可以填预期毕业时间</p>
+                <div class="input-group mb-3 col-12">
+                <input type="text" name="start_time" class="form-control col-6" placeholder="入学时间" aria-label="" aria-describedby="basic-addon1">
+                <input type="text" name="end_time"  class="form-control col-6" placeholder="毕业时间" aria-label="" aria-describedby="basic-addon1">
+                </div>
+                    <div class="col-12 row">
+                     <label class="col-6" for="start_time"></label>
+                      <label class="col-6" for="end_time"></label>
+                 </div>
+                <div class="col-12" style="margin-bottom: 10px;margin-top: 30px ">成绩排名<span style="color: red">*</span></div>
+                <input class="form-control" name="grade_rank" type="text" placeholder="请输入" aria-label="default input example">
+
+                </div>
+
+                <div class="education">
+                <div class="col-12" style="margin-bottom: 10px;">学校<span style="color: red">*</span></div>
+                <input class="form-control" name="school" type="text" placeholder="请输入" aria-label="default input example">
+                 <div class="col-12"  style="margin-bottom: 10px;margin-top: 30px ">学历<span style="color: red">*</span></div>
+                <input class="form-control" name="education_background" type="text" placeholder="请输入" aria-label="default input example">
+                 <div class="col-12" style="margin-bottom: 10px;margin-top: 30px ">专业<span style="color: red">*</span></div>
+                <input class="form-control" name="major" type="text" placeholder="请输入" aria-label="default input example">
+                <div class="col-12" style="margin-bottom: 10px;margin-top: 30px ">起止时间<span style="color: red">*</span></div>
+                <p style="color: rgba(0,0,0,0.4);font-size: 12px">无准确毕业时间可以填预期毕业时间</p>
+                <div class="input-group mb-3 col-12">
+                <input type="text" name="start_time" class="form-control col-6" placeholder="入学时间" aria-label="" aria-describedby="basic-addon1">
+                <input type="text" name="end_time"  class="form-control col-6" placeholder="毕业时间" aria-label="" aria-describedby="basic-addon1">
+                </div>
+                 <div class="col-12 row">
+                     <label class="col-6" for="start_time"></label>
+                      <label class="col-6" for="end_time"></label>
+                 </div>
+                <div class="col-12" style="margin-bottom: 10px;margin-top: 30px ">成绩排名<span style="color: red">*</span></div>
+                <input class="form-control" name="grade_rank" type="text" placeholder="请输入" aria-label="default input example">
+                  
+                </div>
+                <div class = "d-flex align-items-center justify-content-around" id="education-btngrp" style="margin-top: 2rem">
+                     <button class="btn btn-primary add"  type="button" style="border-radius: 30px;">添加</button>
+                    <button class="btn btn-secondary del" type="button"  style="border-radius: 30px;">删除</button>
+                </div>
+            </div>
+
+            <div class = "col-12">
+                <br>
+                <hr style="color: rgba(0,0,0,0.2)">
+                <br>
+            </div>
+            <div class="col-md-6">
+                <h4 ><strong style="border-bottom: solid 4px #1E9FFF;">项目经历</strong></h4>
+                <p style="color: rgba(0,0,0,0.4)">请填写项目经历</p>
+            </div>
+            <div class="col-md-6">
+                <div class="project" style="display: none">
+                    <hr>
+                <div class="col-12" style="margin-bottom: 10px;">项目名称<span style="color: red">*</span></div>
+                <input class="form-control" name="project_name" type="text" placeholder="请输入" aria-label="default input example">
+                 <div class="col-12"  style="margin-bottom: 10px;margin-top: 30px ">项目角色<span style="color: red">*</span></div>
+                <input class="form-control" name="project_role" type="text" placeholder="请输入" aria-label="default input example">
+                 <div class="col-12" style="margin-bottom: 10px;margin-top: 30px ">起止时间<span style="color: red">*</span></div>
+
+                <div class="input-group mb-3 col-12">
+                <input type="text" name="project_starttime" class="form-control col-6" placeholder="开始时间" aria-label="" aria-describedby="basic-addon1">
+                <input type="text" name="project_endtime" class="form-control col-6" placeholder="完成时间" aria-label="" aria-describedby="basic-addon1">
+                </div>
+                    <div class="col-12 row">
+                     <label class="col-6" for="project_starttime"></label>
+                      <label class="col-6" for="project_endtime"></label>
+                 </div>
+                <div class="col-12" style="margin-bottom: 10px;margin-top: 30px ">项目链接<span style="color: red">*</span></div>
+                <input class="form-control" name="project_link" type="text" placeholder="请输入" aria-label="default input example"/>
+                 <div class="col-12" style="margin-bottom: 10px;margin-top: 30px ">项目描述<span style="color: red">*</span></div>
+                <textarea class="form-control" name="project_describe" type="text" placeholder="" aria-label="default input example" rows="4"></textarea>
+                </div>
+                <div class="project">
+                <div class="col-12" style="margin-bottom: 10px;">项目名称<span style="color: red">*</span></div>
+                <input class="form-control" name="project_name" type="text" placeholder="请输入" aria-label="default input example">
+                 <div class="col-12" style="margin-bottom: 10px;margin-top: 30px ">项目角色<span style="color: red">*</span></div>
+                <input class="form-control" name="project_role" type="text" placeholder="请输入" aria-label="default input example">
+                 <div class="col-12" style="margin-bottom: 10px;margin-top: 30px ">起止时间<span style="color: red">*</span></div>
+                <div class="input-group mb-3 col-12">
+                <input type="text" class="form-control col-6" name="project_starttime" placeholder="开始时间" aria-label="" aria-describedby="basic-addon1">
+                <input type="text" class="form-control col-6" name="project_endtime" placeholder="完成时间" aria-label="" aria-describedby="basic-addon1">
+                </div>
+                    <div class="col-12 row">
+                     <label class="col-6" for="project_starttime"></label>
+                      <label class="col-6" for="project_endtime"></label>
+                 </div>
+                <div class="col-12" style="margin-bottom: 10px;margin-top: 30px ">项目链接<span style="color: red">*</span></div>
+                <input class="form-control" name="project_link" type="text" placeholder="请输入" aria-label="default input example"/>
+                 <div class="col-12" style="margin-bottom: 10px;margin-top: 30px ">项目描述<span style="color: red">*</span></div>
+                <textarea class="form-control" name="project_describe" type="text" placeholder="" aria-label="default input example" rows="4"></textarea>
+                </div>
+                <div class = "d-flex align-items-center justify-content-around" id="project-btngrp" style="margin-top: 2rem">
+                     <button class="btn btn-primary add"  type="button" style="border-radius: 30px;">添加</button>
+                    <button class="btn btn-secondary del" type="button"  style="border-radius: 30px;">删除</button>
+                </div>
+            </div>
+
+            <div class = "col-12">
+                <br>
+                <hr style="color: rgba(0,0,0,0.2)">
+                <br>
+            </div>
+
+            <div class="col-md-6">
+                <h4 ><strong style="border-bottom: solid 4px #1E9FFF;">社交账号</strong></h4>
+                <p style="color: rgba(0,0,0,0.4)">请填写社交账号</p>
+            </div>
+
+            <div class="col-md-6">
+                <div class="social" style="display: none">
+                    <hr>
+                <div class="col-12" style="margin-bottom: 10px;">社交平台<span style="color: red">*</span></div>
+                <input class="form-control" name="social_platform" type="text" placeholder="请输入" aria-label="default input example">
+                <div class="col-12" style="margin-bottom: 10px;margin-top: 30px">账号/URL<span style="color: red">*</span></div>
+                <input class="form-control" name="account_url" type="text" placeholder="请输入" aria-label="default input example">
+                </div>
+                <div class="social">
+                <div class="col-12" style="margin-bottom: 10px;">社交平台<span style="color: red">*</span></div>
+                <input class="form-control" name="social_platform" type="text" placeholder="请输入" aria-label="default input example">
+                <div class="col-12" style="margin-bottom: 10px;margin-top: 30px">账号/URL<span style="color: red">*</span></div>
+                <input class="form-control" name="account_url" type="text" placeholder="请输入" aria-label="default input example">
+                </div>
+                <div class = "d-flex align-items-center justify-content-around" id="social-btngrp" style="margin-top: 2rem">
+                     <button class="btn btn-primary add"  type="button"  style="border-radius: 30px;">添加</button>
+                    <button class="btn btn-secondary del" type="button"  style="border-radius: 30px;">删除</button>
+                </div>
+            </div>
+            <div class = "col-12">
+                <br>
+                <hr style="color: rgba(0,0,0,0.2)">
+                <br>
+            </div>
+             <div class="col-md-6">
+                <h4 ><strong style="border-bottom: solid 4px #1E9FFF;">获得奖项</strong></h4>
+                <p style="color: rgba(0,0,0,0.4)">请填写获得奖项</p>
+            </div>
+            <div class="col-md-6">
+                <div class="award" style="display: none">
+                    <hr>
+                <div class="col-12" style="margin-bottom: 10px;">奖项名称<span style="color: red">*</span></div>
+                <input class="form-control" name="award_name" type="text" placeholder="请输入" aria-label="default input example">
+                <div class="col-12" style="margin-bottom: 10px;margin-top: 30px">奖项等级<span style="color: red">*</span></div>
+                <input class="form-control" name="award_level" type="text" placeholder="请输入" aria-label="default input example">
+                </div>
+                <div class="award">
+                <div class="col-12" style="margin-bottom: 10px;">奖项名称<span style="color: red">*</span></div>
+                <input class="form-control" name="award_name" type="text" placeholder="请输入" aria-label="default input example">
+                <div class="col-12" style="margin-bottom: 10px;margin-top: 30px">奖项等级<span style="color: red">*</span></div>
+                <input class="form-control" name="award_level" type="text" placeholder="请输入" aria-label="default input example">
+                </div>
+
+                <div class = "d-flex align-items-center justify-content-around" id="social-btngrp" style="margin-top: 2rem">
+                     <button class="btn btn-primary add"  type="button"  style="border-radius: 30px;">添加</button>
+                    <button class="btn btn-secondary del" type="button"  style="border-radius: 30px;">删除</button>
+                </div>
+            </div>
+            <div class = "col-12">
+                <br>
+                <hr style="color: rgba(0,0,0,0.2)">
+                <br>
+            </div>
+            <div class="col-md-6">
+                <h4 ><strong style="border-bottom: solid 4px #1E9FFF;">自我评价</strong></h4>
+                <p style="color: rgba(0,0,0,0.4)">请填写自我评价</p>
+            </div>
+            <div class="col-md-6">
+                <div class="col-12" style="margin-bottom: 10px;">自我评价<span style="color: red">*</span></div>
+                <div class="self">
+                 <textarea class="form-control" name="self_evaluation" type="text" placeholder="" aria-label="default input example" rows="4"></textarea>
+                </div>
+            </div>
+
+            <div class = "col-12" style="margin-bottom: 40px;">
+                <br>
+                <hr style="color: rgba(0,0,0,0.2)">
+                <br>
+            </div>
+        </div>
+            <div class="fixed-bottom d-flex align-items-center justify-content-around shadow-lg" style="height: 60px;background-color: white;border: 1px solid rgba(0,0,0,0.1);z-index: 2">
+                <button class="btn btn-secondary shadow-lg" id="cancel" style="border-radius: 30px;width: 6rem;background-color: rgba(0,0,0,0.4)"><a href="/" style="text-decoration: none;color: white">取消</a></button>
+
+                <button class="btn btn-primary shadow-lg" id="save" style="border-radius: 30px;width: 6rem" type="submit">保存</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}

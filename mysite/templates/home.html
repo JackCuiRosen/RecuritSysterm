@@ -1,0 +1,93 @@
+
+
+{% extends "base.html" %}
+
+{% block jqscript %}
+	<script>
+		$(document).ready(function () {
+
+			$(".navbar-brand.home").each(function () {
+
+				$(this).css({"text-decoration":"underline", "text-underline-offset":"20px","text-decoration-color":"#007bff"})
+			});
+
+
+
+			$("#button-addon2,#button-seach1").click(function () {
+
+
+				var w = $(window).width();
+
+				if(w < 1200)
+					var keyword = $("#seach1-input").val();
+				else
+					var keyword = $("#search-input").val();
+
+
+
+				console.log(keyword + "111");
+				// console.log('!!!!');
+				var href = "/position?page=&category=&keyword=" + keyword;
+
+				window.location.href = href;
+			})
+
+		});
+	</script>
+{% endblock %}
+
+
+{%  block definemeta %}
+		<meta name="viewport" content="width=device-width, initial-scale=1" id="job-adapt">
+{% endblock %}
+
+{% block homecontent %}
+<div>
+		<img src = "/static/Recruitment/img/new-home-banner.gif"  class="img-fluid" style="width: 100%;height:100%; position:absolute; top: 0; z-index: 0;object-fit: cover; display: block;" id="home-bg" alt="#">
+		</div>
+<!--		 <img src="img/transform1.gif" class="img-fluid" style="width: 100%;height:100%; position:absolute; top: 900px; z-index: 0;object-fit: cover;;" id = "home-ani" alt="#">-->
+		<div class="search-content" style="width: 100%; height: 8rem; display: flex; flex-direction: column;justify-content: center; text-align: center; box-shadow: 2px 3px 2px 1px rgba(0, 0, 0, 0.03);position: absolute; top: 600px; z-index: 2;" id = 'sech'>
+					<div class="btn-group  m-auto" role="group" style="width: 60rem;">
+					  <div class="input-group flex-nowrap " id="inp" style="border-bottom-left-radius:30px;border-top-left-radius:30px;">
+						  <span class="input-group-text border  border-end-0"   style="border-bottom-left-radius:30px;border-top-left-radius:30px;background-color: white; width: 4rem;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search m-auto" viewBox="0 0 16 16">
+		  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+		</svg></span>
+					  <input type="text" class="form-control border  border-start-0" placeholder="搜索职位" aria-label="" aria-describedby="button-addon2" id = "search-input" >
+					  </div>
+					  <button class="btn btn-primary" type="button" id="button-addon2" style="width: 10rem;border-bottom-right-radius:30px;border-top-right-radius:30px;">搜索</button>
+					</div>
+				</div>
+		<!-- <div class="background-div"></div> -->
+
+		<div style="position: absolute; top:1000px; text-align: center; width: 100%; " id="vid-show">
+
+<!--			<div style="height: 10%"></div>-->
+
+			<div  style="display: flex; z-index: 3; margin-top: 21rem; margin-left: 76.5%; position: absolute" id="openbtn">
+				<div>
+					<div style="width: 45px;height: 45px;border-radius: 22.5px;background-color: rgba(0, 0, 0, 0.2); display: flex; justify-content: center; align-items: center;"  onclick = "openVoice()">
+						<svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-icon="SpeakerMuteOutlined"><path d="m5 17 6.622 4.782c.992.717 2.378.008 2.378-1.216V3.434c0-1.224-1.386-1.933-2.378-1.216L5 7v10Zm2-8.977 5-3.612v15.177l-5-3.61V8.022ZM1 8a1 1 0 0 1 1-1h1v10H2a1 1 0 0 1-1-1V8Zm15.207 7.425a1 1 0 0 1 0-1.415l1.987-1.987-1.901-1.902a1 1 0 0 1 1.414-1.414l1.902 1.902 1.901-1.902a1 1 0 0 1 1.414 1.414l-1.901 1.902 1.987 1.988a1 1 0 0 1-1.414 1.414l-1.987-1.988-1.988 1.988a1 1 0 0 1-1.414 0Z" fill="currentColor" style="color: white;"></path></svg>
+					</div>
+				</div>
+			</div>
+			<div  style="display: none; z-index: 3; margin-top: 21rem; margin-left: 76.5%; position: absolute" id="closebtn">
+				<div>
+					<div style="width: 45px;height: 45px;border-radius: 22.5px;background-color: rgba(0, 0, 0, 0.2); display: flex; justify-content: center; align-items: center;" onclick = 'closeVoice()'>
+						<svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-icon="SpeakerOutlined"><path d="M11.622 21.782 5 17V7l6.622-4.782C12.614 1.5 14 2.21 14 3.434v17.132c0 1.224-1.386 1.933-2.378 1.216ZM7 15.977l5 3.611V4.411L7 8.023v7.954ZM2 7a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h1V7H2Zm14.371 1.223a1 1 0 0 1 1.406.148c.813 1.004 1.334 2.17 1.334 3.629s-.521 2.625-1.334 3.63a1 1 0 0 1-1.554-1.259c.577-.714.888-1.448.888-2.371s-.31-1.657-.888-2.37a1 1 0 0 1 .148-1.407Z" fill="currentColor" style="color: white"></path><path d="M19.667 4.547a1 1 0 1 0-1.334 1.49A7.977 7.977 0 0 1 21 12a7.978 7.978 0 0 1-2.667 5.963 1 1 0 1 0 1.334 1.49A9.977 9.977 0 0 0 23 12a9.977 9.977 0 0 0-3.333-7.453Z" fill="currentColor" style="color: white"></path></svg>
+					</div>
+				</div>
+			</div>
+
+
+
+			<video src="/static/Recruitment/img/story.mp4" autoplay loop muted object-fit = "contaion" style="height: 60%;width: 60%;border-radius: 20px; margin-top: 20em" id="vd"></video>
+
+			<div style="position: relative; top: 50px; height: 100px;">
+				<h4>
+					字节跳动的使命是“激发创造，丰富生活”。<br>
+					我们因使命而驱动，希望吸引认同我们的人加入，一起激发更多人的创造。
+				</h4>
+			</div>
+
+		</div>
+{% endblock %}

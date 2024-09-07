@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block jqscript %}
+    <script src="/static/Recruitment/js/candidataRender.js"></script>
+    <script>
+        var education = '{{ user_candidate.education }}';
+        var advantage = '{{ user_candidate.advantage }}';
+        var evaluation = '{{ user_candidate.evaluation }}';
+        var social = '{{ user_candidate.social }}';
+        var award = '{{ user_candidate.award }}';
+        var project = '{{ user_candidate.project }}';
+
+    </script>
+{% endblock %}
+
+
+{% block mycadidate %}
+    <style>
+        a {
+            text-decoration: none;
+        }
+    </style>
+    <div class="col-12" style="background-image: url('/static/Recruitment/img/my_resume_banner_1577084307030.jpg');height: 317px;">
+        <div class="col-lg-6 col-sm-10 mx-auto">
+            <div class="row justify-content-between">
+                <div class="col-4"  style="margin-top: 5rem;">
+                    <h2><strong style="color: white">我的简历</strong></h2>
+                    <p style="margin-top: 2rem;color: white"><svg width="16" height="16" viewBox="0 0 16 16"><path fill="#FFF" fill-rule="evenodd" d="M8.667 7.333v-2a.667.667 0 0 0-1.334 0V8A.665.665 0 0 0 8 8.667h2.667a.667.667 0 0 0 0-1.334h-2zm-.667 8A7.333 7.333 0 1 1 8 .667a7.333 7.333 0 0 1 0 14.666z"></path></svg>
+                        最后更新时间: {{ last_editTime }}</p>
+                </div>
+
+                <div class="col-4   "  style="margin-top: 5rem;text-align: end">
+                 <a href="/editcandidate/"><button class="btn btn-outline-light" style="border-radius: 50px;"><svg width="16" height="16" viewBox="0 0 16 16"><path fill="currentColor" fill-rule="evenodd" d="M8.188 3.745L9.531 5.09l.997-.998-1.349-1.356-.99 1.01zm.401 2.287L7.255 4.697 2.688 9.353v.002l1.29 1.29h.002l4.61-4.613zm3.12-1.207l.004.004L4.543 12H2a.667.667 0 0 1-.667-.667V8.791L8.26 1.81l-.007-.007.47-.47a.667.667 0 0 1 .944.002l2.29 2.301a.667.667 0 0 1-.002.942l-.246.246zM1.667 13.333h12.666c.184 0 .334.15.334.334v.666c0 .184-.15.334-.334.334H1.667a.333.333 0 0 1-.334-.334v-.666c0-.184.15-.334.334-.334z"></path></svg>
+                    编辑
+                 </button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-lg col-lg-6 col-sm-10 mx-auto" style= "margin-top:-5rem;margin-bottom: 5rem;">
+
+				  <div class="card-body" style="margin-left: 4rem; margin-top: 2rem; margin-right: 2rem;"> <h2 class="card-title"><strong>{{ user_candidate.name }}</strong></h2>
+				    <nav style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb">
+				      <ol class="breadcrumb">
+				        <li class="breadcrumb-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"></path>
+</svg> <span> {{ user_candidate.phone }}</span></li>
+				        <li class="breadcrumb-item active" aria-current="page"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
+  <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z"></path>
+</svg> <span>{{ user_candidate.email }}</span></li>
+                          <li  class="breadcrumb-item active"><strong>求职意向:</strong><span>{{ user_candidate.job_wanted }}</span></li>
+
+				      </ol>
+				    </nav>
+					<br />
+					<br />
+					<h4><strong><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+  <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
+</svg> 个人特长</strong></h4>
+					<hr />
+					<br />
+				    <div id="advantage-content">
+                        <div class="advantage row">
+                               <p class="col-12"><span data-name="self_advantage"></span></p>
+                        </div>
+                    </div>
+		<br />
+				  <br />
+
+				  <h4><strong><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-book-fill" viewBox="0 0 16 16">
+  <path d="M8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/>
+</svg> 教育经历</strong></h4>
+				<hr />
+				  <br />
+
+				  <div id="education-content">
+                      <div class="education row" style="display: none;margin-top: 2rem;">
+                          <div class="time col-4" >
+                              <strong><span data-name="start_time"></span>~<span data-name="end_time"></span></strong>
+                          </div>
+                          <div class="details col-8 ">
+                                <li><span data-name="school"></span></li>
+                                <li><span data-name="major"></span></li>
+                                <li><span data-name="education_background"></span></li>
+                                <li>在校成绩前<span data-name="grade_rank"></span></li>
+                          </div>
+
+                      </div>
+
+
+                      <br>
+
+                      <div id="award-content">
+
+                          <div class="award row" style="display: none;">
+                          <div class="awaard_head col-4">
+                          </div>
+                          <div class="details col-8">
+                                <li class="school"><strong>在校期间获得</strong><span data-name="award_name"></span><span data-name="award_level"></span></li>
+                            </div>
+                            </div>
+                      </div>
+                  </div>
+				<br />
+
+				<h4><strong><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pc-display-horizontal" viewBox="0 0 16 16">
+  <path d="M1.5 0A1.5 1.5 0 0 0 0 1.5v7A1.5 1.5 0 0 0 1.5 10H6v1H1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-5v-1h4.5A1.5 1.5 0 0 0 16 8.5v-7A1.5 1.5 0 0 0 14.5 0zm0 1h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .5-.5M12 12.5a.5.5 0 1 1 1 0 .5.5 0 0 1-1 0m2 0a.5.5 0 1 1 1 0 .5.5 0 0 1-1 0M1.5 12h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1M1 14.25a.25.25 0 0 1 .25-.25h5.5a.25.25 0 1 1 0 .5h-5.5a.25.25 0 0 1-.25-.25"/>
+</svg> 项目经历</strong></h4>
+				<hr />
+								  <br />
+
+								  <div id="project-content">
+                                      <div class="project row" style="margin-bottom: 3rem; display: none">
+                                          <div class="time col-4 gy-4" >
+                                            <strong><span data-name='project_starttime'></span >~<span data-name="project_endtime"></span></strong>
+                                          </div>
+                                          <div class="details col-8  row gy-3">
+                                              <h6 class="col-12 "><strong><span data-name="project_name"></span></strong></h6>
+                                              <h6 class="col-6">项目角色</h6>
+                                              <p class="col-6"><span data-name="project_role"></span></p>
+                                              <h6 class="col-6">项目地址</h6>
+                                              <a href="#" class="col-6"><span data-name="project_link"></span></a>
+                                              <h6 class="col-12">项目介绍</h6>
+                                              <p class="project_describe col-12">
+                                                  <span data-name="project_describe"></span>
+                                              </p>
+                                          </div>
+                                          <br>
+                                          <br>
+                                      </div>
+                                  </div>
+
+						<br />
+                      <h4><strong><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-bootstrap-fill" viewBox="0 0 16 16">
+  <path d="M6.375 7.125V4.658h1.78c.973 0 1.542.457 1.542 1.237 0 .802-.604 1.23-1.764 1.23zm0 3.762h1.898c1.184 0 1.81-.48 1.81-1.377 0-.885-.65-1.348-1.886-1.348H6.375z"/>
+  <path d="M4.002 0a4 4 0 0 0-4 4v8a4 4 0 0 0 4 4h8a4 4 0 0 0 4-4V4a4 4 0 0 0-4-4zm1.06 12V3.545h3.399c1.587 0 2.543.809 2.543 2.11 0 .884-.65 1.675-1.483 1.816v.1c1.143.117 1.904.931 1.904 2.033 0 1.488-1.084 2.396-2.888 2.396z"/>
+</svg> 社交账号</strong></h4>
+				<hr />
+								  <br />
+
+								  <div id="social-content">
+                                      <div class="social row" style="display: none">
+                                          <div class="details col-12 row">
+                                              <h6 class="col-4"><strong><span data-name="social_platform"></span></strong></h6>
+                                            <a class="col-8" href="#"><span data-name="account_url"></span></a>
+                                          </div>
+                                      </div>
+                                  </div>
+
+				<br />
+						<h4><strong><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+  <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+</svg>
+                            自我评价</strong></h4>
+						<hr />
+
+										 <div id="evaluation-content">
+                                             <div class="evaluation row">
+                                                <p class="col-12"><span data-name="self_evaluation"></span></p>
+                                            </div>
+                                        </div>
+				</div>
+        </div>
+
+				<br/>
+				<br />
+{% endblock %}
