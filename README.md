@@ -2,4 +2,4 @@
 
 这是一个使用django作为后端开发的校园管理系统，可以帮助实现简历管理，面试评分，用户信息管理等功能，帮助企业实现更加高效的人才筛选
 
-[演示地址](jobs.tecshare.online)
+[演示地址](https://jobs.tecshare.online)
